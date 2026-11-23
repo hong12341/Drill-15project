@@ -36,6 +36,7 @@ class Zombie:
         self.dir = random.choice([-1, 1])
         game_world.add_collision_pair('zombie:ball', self, None)
         self.hit_count = 0
+        self.scale = 1.0
 
     def update(self):
         dt = game_framework.frame_time
@@ -61,5 +62,6 @@ class Zombie:
     def handle_collision(self, group, other):
              if group == 'zombie:ball' and not other.stopped:
                         self.hit_count += 1
+                        
                         if self.hit_count >= 2:
                             game_world.remove_object(self)
