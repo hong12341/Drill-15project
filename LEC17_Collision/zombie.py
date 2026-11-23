@@ -34,6 +34,8 @@ class Zombie:
         self.x, self.y = random.randint(MIN_X, MAX_X), 150
         self.frame = random.randint(0, 9)
         self.dir = random.choice([-1, 1])
+        game_world.add_collision_pair('zombie:ball', self, None)
+        self.hit_count = 0
 
     def update(self):
         dt = game_framework.frame_time
@@ -55,3 +57,9 @@ class Zombie:
 
     def get_bb(self):
         return self.x - 100, self.y - 100, self.x + 100, self.y + 100
+
+    def handle_collision(self, group, other):
+             if group == 'zombie:ball' and not other.stopped:
+                        self.hit_count += 1
+                        if self.hit_count >= 2:
+                            game_world.remove_object(self)
