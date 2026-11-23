@@ -66,7 +66,7 @@ class Zombie:
                         self.hit_count += 1
                         if self.hit_count >= 1:
                              self.scale -= 0.5
-                             
+                             self.y = 40 + 130 * self.scale
                         if self.hit_count >= 2:
                             game_world.remove_object(self)
              if group == 'zombie:boy' :
