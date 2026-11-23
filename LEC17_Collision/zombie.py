@@ -1,7 +1,7 @@
 import random
 
 from pico2d import load_image, draw_rectangle, clamp
-
+from pico2d import open_canvas, close_canvas
 import game_framework
 import game_world
 
@@ -23,7 +23,7 @@ MIN_X, MAX_X = 800, 1600  # 좀비가 오가는 구간
 class Zombie:
     images = None
 
-    def load_images(self):
+    def load_images(self ):
         if Zombie.images is None:
             Zombie.images = {
                 'Walk': [load_image(f'./zombie/Walk ({i}).png') for i in range(1, 11)]
@@ -37,6 +37,7 @@ class Zombie:
         game_world.add_collision_pair('zombie:ball', self, None)
         self.hit_count = 0
         self.scale = 1.0
+        game_world.add_collision_pair('zombie:boy', self, None)
 
     def update(self):
         dt = game_framework.frame_time
@@ -49,11 +50,11 @@ class Zombie:
         self.x = clamp(MIN_X, self.x, MAX_X)
 
     def draw(self):
-        image = Zombie.images['Walk'][int(self.frame)]
+        image = Zombie.images['Walk'][int(self.frame)] 
         if self.dir < 0:
-            image.composite_draw(0, 'h', self.x, self.y, 200, 200)
+            image.composite_draw(0, 'h', self.x* self.scale, self.y* self.scale, 200, 200)
         else:
-            image.draw(self.x, self.y, 200, 200)
+            image.draw(self.x* self.scale, self.y* self.scale, 200, 200)
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
@@ -63,6 +64,10 @@ class Zombie:
     def handle_collision(self, group, other):
              if group == 'zombie:ball' and not other.stopped:
                         self.hit_count += 1
-                        
+                        if self.hit_count >= 1:
+                             self.scale -= 0.1
+                             
                         if self.hit_count >= 2:
                             game_world.remove_object(self)
+                  
+                

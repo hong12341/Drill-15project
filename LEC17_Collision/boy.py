@@ -146,6 +146,8 @@ class Boy:
         game_world.add_oject(ball,1)
         game_world.add_collision_pair('grass:ball',None,ball)
         game_world.add_collision_pair('boy:ball', None, ball)
+        game_world.add_collision_pair('zombie:boy', None, self)
+        self.boy_count = 0
 
     def pause(self):
         self.pressed_keys.clear()
@@ -191,3 +193,6 @@ class Boy:
     def handle_collision(self, group, other):
         if group == 'boy:ball':
             self.ball_count += 1
+        if group == 'zombie:boy':
+            quit()
+        
