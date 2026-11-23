@@ -52,9 +52,9 @@ class Zombie:
     def draw(self):
         image = Zombie.images['Walk'][int(self.frame)] 
         if self.dir < 0:
-            image.composite_draw(0, 'h', self.x* self.scale, self.y* self.scale, 200, 200)
+            image.composite_draw(0, 'h', self.x, self.y, 200* self.scale, 200* self.scale)
         else:
-            image.draw(self.x* self.scale, self.y* self.scale, 200, 200)
+            image.draw(self.x, self.y, 200* self.scale, 200* self.scale)
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
@@ -65,9 +65,11 @@ class Zombie:
              if group == 'zombie:ball' and not other.stopped:
                         self.hit_count += 1
                         if self.hit_count >= 1:
-                             self.scale -= 0.1
+                             self.scale -= 0.5
                              
                         if self.hit_count >= 2:
                             game_world.remove_object(self)
+             if group == 'zombie:boy' :
+                  quit()
                   
                 
