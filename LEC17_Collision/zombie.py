@@ -57,7 +57,8 @@ class Zombie:
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x - 100, self.y - 100, self.x + 100, self.y + 100
+        return (self.x - 100 * self.scale, self.y - 100 * self.scale,
+                self.x + 100 * self.scale, self.y + 100 * self.scale)
 
     def handle_collision(self, group, other):
              if group == 'zombie:ball' and not other.stopped:
